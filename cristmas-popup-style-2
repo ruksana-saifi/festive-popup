@@ -1,0 +1,218 @@
+<style>
+#x-mas-countdown {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* background: #e8201e; */
+    z-index: 9999;
+    border-radius: 20px;
+    padding: 0;
+    text-align: center;
+    display: none;
+    width: 800px;
+    max-width: 100%;
+  /* align-items:center; */
+}
+.x-mas-countdown h2{
+    font-size: 40px;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: 0;
+    margin: 0 0 20px;
+}
+  .popup__img-wrapper {
+    width: 50%;
+}
+.popup__img-wrapper img {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px 0 0 10px;
+}
+.popup__info {
+    width: 50%;
+    align-items: center;
+    display: flex
+;
+    flex-direction: column;
+    justify-content: center;
+}
+div#timer {
+    margin: 0 0 30px 0;
+}
+#timer .time {
+    background: #fff;
+    height: 50px;
+    font-size: 20px;
+    display: inline-block;
+    width: 50px;
+    align-items: center;
+    position: relative;
+}
+div#timer span {
+    position: absolute;
+    bottom: -2px;
+    text-align: center;
+    justify-content: center;
+    margin: 0 auto;
+    display: block;
+    width: 100%;
+    font-size: 10px;
+    border-top: 1px solid #eee;
+}
+#x-mas-countdown h3 {
+    font-size: 18px;
+ line-height:100%;
+}
+.x-mas-shopnow {
+    background: #282828;
+    border-radius: 10px;
+    padding: 12px 40px;
+    font-size: 18px;
+    text-decoration: none;
+    font-weight: 600;
+}
+  span#close-xmas-popup {
+    position: absolute;
+    top: 0;
+    right: 20px;
+    font-size: 34px;
+    color: #000;
+    cursor: pointer;
+}
+</style>
+
+<!-- Display the countdown timer in an element -->
+<div id="x-mas-countdown" style="background:{{ section.settings.popup-bg-color }}">
+  <span id="close-xmas-popup">&times;</span>
+<div class="popup__img-wrapper" style="background: url(); background-size:cover">
+  <img src="{{ section.settings.img | img_url:'master' }}" alt="Cristmas day">
+</div>
+<div class="popup__info">
+     {% if  section.settings.maintitle != blank %}
+  <h2>
+    {{ section.settings.maintitle }}
+  </h2>
+     {% endif %}
+  {% if  section.settings.title != blank %}
+  <h3>
+    Only <span id="hours"></span> hours left to save 20% 
+  </h3>
+  {% endif %}
+  <div id="timer"></div>
+ {% if section.settings.button-text != blank %}
+  <a href="{{ section.settings.button-url }}" class="x-mas-shopnow">{{ section.settings.button-text }}</a>
+  {% endif %}
+</div>
+
+
+  <!-- love themesmesh -->
+</div>
+
+<script>
+// Show the countdown popup after 5 seconds
+setTimeout(function() {
+    document.getElementById("x-mas-countdown").style.display = "flex";
+}, 5000);
+document.getElementById('close-xmas-popup').addEventListener('click', function(){
+   document.getElementById("x-mas-countdown").style.display = "none";
+})
+// Set the date we're counting down to
+var countDownDate = new Date("{{ section.settings.time }}").getTime();
+
+// Update the countdown every 1 second
+var x = setInterval(function() {
+    // Get today's date and time
+    var now = new Date().getTime();
+
+    // Find the distance between now and the countdown date
+    var distance = countDownDate - now;
+
+    // Time calculations for days, hours, minutes, and seconds
+    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    // Display the result in the element with id="timer"
+    document.getElementById("timer").innerHTML = `
+        <div class="time">${days} <span>Days</span></div>
+        <div class="time">${hours} <span>Hours</span></div>
+        <div class="time">${minutes} <span>Minutes</span></div>
+        <div class="time">${seconds} <span>Seconds</span></div>
+    `;
+  document.getElementById("hours").innerHTML = `${hours}`;
+
+    // If the countdown is finished, write some text
+    if (distance < 0) {
+        clearInterval(x);
+        document.getElementById("timer").innerHTML = "EXPIRED";
+    }
+}, {{section.settings.popup-coming-timing}});
+</script>
+
+
+{% schema %}
+{
+  "name": "X-mas Countdown",
+  "settings": [
+    {
+      "type": "color",
+      "id": "popup-bg-color",
+      "label": "Popup BG Color",
+      "default": "#e8201e"
+    },
+     {
+      "type": "image_picker",
+      "id": "img",
+      "label": "popup-img"
+    },    
+     {
+      "type": "text",
+      "id": "maintitle",
+      "label": "Main Title",
+      "default":"Happy Cristmas"
+    },
+    {
+      "type": "text",
+      "id": "button-text",
+      "label": "Button Text",
+      "default": "Get My 20% Off"
+    },
+     {
+      "type": "url",
+      "id": "button-url",
+      "label": "Button URL"
+    },
+    {
+      "type": "color",
+      "id": "button-bg-color",
+      "label": "Popup backgorund Color",
+      "default": "#39db4a"
+    },
+    {
+      "type": "color",
+      "id": "button-color",
+      "label": "Popup text Color",
+      "default": "#fff"
+    },
+    {
+      "type": "text",
+      "id": "time",
+      "label": "Time",
+      "default": "dec 25, 2024 12:00:00"
+    },
+     {
+      "type": "text",
+      "id": "popup-coming-timing",
+      "label": "Popup Timing",
+      "default": "1000"
+    }
+  ],
+  "presets": [
+    {
+       "name": "X-mas Countdown"
+    }
+  ]
+}
+{% endschema %}
