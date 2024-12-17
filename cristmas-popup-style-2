@@ -1,110 +1,109 @@
 <style>
-#x-mas-countdown {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    /* background: #e8201e; */
-    z-index: 9999;
-    border-radius: 20px;
-    padding: 0;
-    text-align: center;
-    display: none;
-    width: 800px;
-    max-width: 100%;
-  /* align-items:center; */
-}
-.x-mas-countdown h2{
-    font-size: 40px;
-    font-weight: 700;
-    line-height: 1.2;
-    letter-spacing: 0;
-    margin: 0 0 20px;
-}
-  .popup__img-wrapper {
-    width: 50%;
-}
-.popup__img-wrapper img {
-    width: 100%;
-    height: 100%;
-    border-radius: 10px 0 0 10px;
-}
-.popup__info {
-    width: 50%;
-    align-items: center;
-    display: flex
-;
-    flex-direction: column;
-    justify-content: center;
-}
-div#timer {
-    margin: 0 0 30px 0;
-}
-#timer .time {
-    background: #fff;
-    height: 50px;
-    font-size: 20px;
-    display: inline-block;
-    width: 50px;
-    align-items: center;
-    position: relative;
-}
-div#timer span {
-    position: absolute;
-    bottom: -2px;
-    text-align: center;
-    justify-content: center;
-    margin: 0 auto;
-    display: block;
-    width: 100%;
-    font-size: 10px;
-    border-top: 1px solid #eee;
-}
-#x-mas-countdown h3 {
-    font-size: 18px;
- line-height:100%;
-}
-.x-mas-shopnow {
-    background: #282828;
-    border-radius: 10px;
-    padding: 12px 40px;
-    font-size: 18px;
-    text-decoration: none;
-    font-weight: 600;
-}
-  span#close-xmas-popup {
-    position: absolute;
-    top: 0;
-    right: 20px;
-    font-size: 34px;
-    color: #000;
-    cursor: pointer;
-}
+  #x-mas-countdown {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      /* background: #e8201e; */
+      z-index: 9999;
+      border-radius: 20px;
+      padding: 0;
+      text-align: center;
+      display: none;
+      width: 800px;
+      max-width: 100%;
+    /* align-items:center; */
+  }
+  .x-mas-countdown h2{
+      font-size: 40px;
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: 0;
+      margin: 0 0 20px;
+  }
+    .popup__img-wrapper {
+      width: 50%;
+  }
+  .popup__img-wrapper img {
+      width: 100%;
+      height: 100%;
+      border-radius: 10px 0 0 10px;
+  }
+  .popup__info {
+      width: 50%;
+      align-items: center;
+      display: flex
+  ;
+      flex-direction: column;
+      justify-content: center;
+  }
+  div#timer {
+      margin: 0 0 30px 0;
+  }
+  #timer .time {
+      background: #fff;
+      height: 50px;
+      font-size: 20px;
+      display: inline-block;
+      width: 50px;
+      align-items: center;
+      position: relative;
+  }
+  div#timer span {
+      position: absolute;
+      bottom: -2px;
+      text-align: center;
+      justify-content: center;
+      margin: 0 auto;
+      display: block;
+      width: 100%;
+      font-size: 10px;
+      border-top: 1px solid #eee;
+  }
+  #x-mas-countdown h3 {
+      font-size: 18px;
+   line-height:100%;
+  }
+  .x-mas-shopnow {
+      background: #282828;
+      border-radius: 10px;
+      padding: 12px 40px;
+      font-size: 18px;
+      text-decoration: none;
+      font-weight: 600;
+  }
+    span#close-xmas-popup {
+      position: absolute;
+      top: 0;
+      right: 20px;
+      font-size: 34px;
+      color: #000;
+      cursor: pointer;
+  }
 </style>
 
 <!-- Display the countdown timer in an element -->
 <div id="x-mas-countdown" style="background:{{ section.settings.popup-bg-color }}">
   <span id="close-xmas-popup">&times;</span>
-<div class="popup__img-wrapper" style="background: url(); background-size:cover">
-  <img src="{{ section.settings.img | img_url:'master' }}" alt="Cristmas day">
-</div>
-<div class="popup__info">
-     {% if  section.settings.maintitle != blank %}
-  <h2>
-    {{ section.settings.maintitle }}
-  </h2>
-     {% endif %}
-  {% if  section.settings.title != blank %}
-  <h3>
-    Only <span id="hours"></span> hours left to save 20% 
-  </h3>
-  {% endif %}
-  <div id="timer"></div>
- {% if section.settings.button-text != blank %}
-  <a href="{{ section.settings.button-url }}" class="x-mas-shopnow">{{ section.settings.button-text }}</a>
-  {% endif %}
-</div>
-
+  <div class="popup__img-wrapper" style="background: url(); background-size:cover">
+    {% if section.settings.img != blank %}
+      <img src="{{ section.settings.img | img_url:'master' }}" alt="Cristmas day">
+    {% endif %}
+  </div>
+  <div class="popup__info">
+    {% if section.settings.maintitle != blank %}
+      <h2>
+        {{ section.settings.maintitle }}
+      </h2>
+    {% endif %}
+    {% if section.settings.title != blank %}
+      <h3>Only <span id="hours"></span> hours left to save 20%</h3>
+    {% endif %}
+    <div id="timer"></div>
+    {% if section.settings['button-text'] != blank %}
+      <a href="{{ section.settings.button-url }}" class="x-mas-shopnow">{{ section.settings['button-text'] }}</a>
+    {% endif %}
+  </div>
 
   <!-- love themesmesh -->
 </div>
@@ -151,7 +150,6 @@ var x = setInterval(function() {
 }, {{section.settings.popup-coming-timing}});
 </script>
 
-
 {% schema %}
 {
   "name": "X-mas Countdown",
@@ -166,7 +164,7 @@ var x = setInterval(function() {
       "type": "image_picker",
       "id": "img",
       "label": "popup-img"
-    },    
+    },
      {
       "type": "text",
       "id": "maintitle",
