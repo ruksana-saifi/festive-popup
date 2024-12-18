@@ -104,9 +104,11 @@
         color: #000;
         cursor: pointer;
     }
-   #textToCopy {
-      visibility: hidden;
-  }
+#textToCopy {
+    opacity: 0;
+    position: absolute;
+    left: -9999px;
+}
 #copyButton {
     background: #333;
     CONTAIN-INTRINSIC-BLOCK-SIZE: AUTO 100PX;
@@ -158,6 +160,25 @@
 </div>
 
 <script>
+  
+  const answer = document.getElementById("copyResult");
+const copy   = document.getElementById("copyButton");
+const selection = window.getSelection();
+const range = document.createRange();
+const textToCopy = document.getElementById("textToCopy")
+
+copy.addEventListener('click', function(e) {
+    range.selectNodeContents(textToCopy);
+    selection.removeAllRanges();
+    selection.addRange(range);
+    const successful = document.execCommand('copy');
+    if(successful){
+      answer.innerHTML = 'Copied!';
+    } else {
+      answer.innerHTML = 'Unable to copy!';  
+    }
+    window.getSelection().removeAllRanges()
+});
 // Show the countdown popup after 5 seconds
 setTimeout(function() {
     document.getElementById("x-mas-countdown").style.display = "flex";
@@ -199,24 +220,6 @@ var x = setInterval(function() {
 }, {{section.settings.popup-coming-timing}});
 
 
-  const answer = document.getElementById("copyResult");
-const copy   = document.getElementById("copyButton");
-const selection = window.getSelection();
-const range = document.createRange();
-const textToCopy = document.getElementById("textToCopy")
-
-copy.addEventListener('click', function(e) {
-    range.selectNodeContents(textToCopy);
-    selection.removeAllRanges();
-    selection.addRange(range);
-    const successful = document.execCommand('copy');
-    if(successful){
-      answer.innerHTML = 'Copied!';
-    } else {
-      answer.innerHTML = 'Unable to copy!';  
-    }
-    window.getSelection().removeAllRanges()
-});
 </script>
 
 {% schema %}
